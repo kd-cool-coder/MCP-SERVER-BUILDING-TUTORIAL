@@ -1,0 +1,7 @@
+node_modules/
+*.log
+inspector_*.png
+mcpjam-debug-*.png
+read_docs.js
+run_tests_fixed.js
+ARTICLE_VALIDATION_NOTES.md

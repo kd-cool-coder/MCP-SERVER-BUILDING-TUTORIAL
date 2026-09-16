@@ -1,0 +1,76 @@
+# SupportDesk MCP Server
+
+This repo accompanies the article "How to Build an MCP Server in TypeScript". It exposes a small SupportDesk ticket system through MCP tools, resources, and a prompt.
+
+The examples target `@modelcontextprotocol/server@2.0.0` and the MCP `2026-07-28` protocol revision.
+
+## Prerequisites
+
+```bash
+npm install
+```
+
+## Run over stdio
+
+Use stdio when a local MCP host launches the server process directly:
+
+```bash
+npm run dev:stdio
+```
+
+The process stays quiet while it waits for an MCP client. That is expected because stdout is reserved for MCP JSON-RPC messages.
+
+The stdio entry point uses `legacy: "reject"`, so connect with a current MCP client that can negotiate the `2026-07-28` protocol revision.
+
+## Test with MCPJam Inspector
+
+```bash
+npx -y @mcpjam/inspector --no-open npx tsx src/stdio.ts
+```
+
+Open the local URL printed by MCPJam, usually `http://127.0.0.1:6274`.
+
+The Inspector should discover:
+
+- Tools: `search_tickets`, `get_ticket`, `update_ticket_status`
+- Resources: `support://queue-summary`, `support://tickets/{id}`
+- Prompt: `triage-ticket`
+
+Useful manual checks:
+
+- Call `search_tickets` with `{ "priority": "high" }`.
+- Read `support://queue-summary`.
+- Read `support://tickets/T-100`.
+
+## Run the local HTTP adapter
+
+`src/http.ts` exports a Fetch-style MCP handler. For local testing, `src/local-http.ts` wraps that handler in Node's HTTP server:
+
+```bash
+npm run dev:http
+```
+
+The endpoint is:
+
+```text
+http://localhost:8787/mcp
+```
+
+Use one of these bearer tokens when connecting an HTTP MCP client:
+
+- `dev-read-token`: can connect and read.
+- `dev-write-token`: can connect, read, and call `update_ticket_status`.
+
+## Typecheck
+
+```bash
+npm run typecheck
+```
+
+## Optional screenshot helper
+
+If MCPJam Inspector is already running, pass its local URL to the Puppeteer helper:
+
+```bash
+node take_screenshots.js "http://127.0.0.1:6274"
+```

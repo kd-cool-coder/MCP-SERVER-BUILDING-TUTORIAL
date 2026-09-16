@@ -1,0 +1,20 @@
+{
+  "name": "supportdesk-mcp",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev:stdio": "tsx src/stdio.ts",
+    "dev:http": "tsx src/local-http.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "puppeteer": "^25.11.0",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
+  }
+}
