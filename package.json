@@ -6,6 +6,13 @@
     "dev:stdio": "tsx src/stdio.ts",
     "dev:http": "tsx src/local-http.ts",
     "test": "vitest run",
+    "test:protocol": "vitest run tests/01-protocol-surface.test.ts",
+    "test:security": "vitest run tests/02-security-http.test.ts",
+    "test:behavior": "vitest run tests/03-behavior-evals.test.ts",
+    "test:cross-client": "vitest run tests/04-cross-client-models.test.ts",
+    "test:ci": "vitest run tests/01-protocol-surface.test.ts tests/02-security-http.test.ts tests/03-behavior-evals.test.ts tests/04-cross-client-models.test.ts",
+    "eval:mock": "vitest run tests/03-behavior-evals.test.ts tests/04-cross-client-models.test.ts",
+    "eval:live": "RUN_LIVE_MODEL_EVALS=1 vitest run tests/05-live-model.eval.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

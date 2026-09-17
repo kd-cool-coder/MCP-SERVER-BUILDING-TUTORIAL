@@ -39,9 +39,27 @@ export default {
       if (hostValidation instanceof Response) return hostValidation;
 
       // Protect the endpoint using standard bearer authentication
-      const authResult = await gate(request);
+      let authResult: Awaited<ReturnType<typeof gate>>;
+      try {
+        authResult = await gate(request);
+      } catch {
+        return new Response("Invalid token", {
+          status: 401,
+          headers: {
+            "WWW-Authenticate": 'Bearer error="invalid_token", error_description="Invalid token"'
+          }
+        });
+      }
 
       if (authResult instanceof Response) {
+        if (authResult.status >= 500) {
+          return new Response("Invalid token", {
+            status: 401,
+            headers: {
+              "WWW-Authenticate": 'Bearer error="invalid_token", error_description="Invalid token"'
+            }
+          });
+        }
         return authResult; // Returns standard 401 or 403 challenge response
       }
 

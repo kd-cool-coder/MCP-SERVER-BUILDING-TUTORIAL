@@ -6,6 +6,15 @@ export interface AppContext {
   authInfo?: {
     scopes: string[];
   };
+  http?: {
+    authInfo?: {
+      scopes: string[];
+    };
+  };
+}
+
+function scopesFromContext(context: AppContext | undefined) {
+  return context?.http?.authInfo?.scopes ?? context?.authInfo?.scopes ?? [];
 }
 
 export function createServer() {
@@ -68,9 +77,9 @@ export function createServer() {
         status: z.enum(["open", "in_progress", "resolved"])
       }
     },
-    async (args, context: any) => {
+    async (args, context: AppContext) => {
       // Extract the authentication context and explicitly check for write privileges
-      if (!context?.authInfo?.scopes?.includes("tickets:write")) {
+      if (!scopesFromContext(context).includes("tickets:write")) {
         throw new Error("Unauthorized: tickets:write scope is missing.");
       }
 

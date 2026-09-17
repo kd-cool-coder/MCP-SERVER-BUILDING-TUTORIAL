@@ -25,7 +25,7 @@ The stdio entry point uses `legacy: "reject"`, so connect with a current MCP cli
 ## Test with MCPJam Inspector
 
 ```bash
-npx -y @mcpjam/inspector --no-open npx tsx src/stdio.ts
+npx -y @mcpjam/inspector@latest --tab tools npx tsx src/stdio.ts
 ```
 
 Open the local URL printed by MCPJam, usually `http://127.0.0.1:6274`.
@@ -67,10 +67,24 @@ Use one of these bearer tokens when connecting an HTTP MCP client:
 npm run typecheck
 ```
 
-## Optional screenshot helper
+## Automated testing layers
 
-If MCPJam Inspector is already running, pass its local URL to the Puppeteer helper:
+Part 2 of the tutorial uses MCPJam SDK tests and Vitest. CI-safe commands:
 
 ```bash
-node take_screenshots.js "http://127.0.0.1:6274"
+npm run test:protocol
+npm run test:security
+npm run test:behavior
+npm run test:cross-client
+npm run test:ci
 ```
+
+Live model-in-the-loop evals are opt-in because they require an API key:
+
+```bash
+export OPENAI_API_KEY="sk-..."
+export RUN_LIVE_MODEL_EVALS=1
+npm run eval:live
+```
+
+See `TESTING_LAYERS.md` for screenshot instructions for each tutorial layer.
