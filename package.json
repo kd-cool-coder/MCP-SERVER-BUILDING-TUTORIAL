@@ -5,6 +5,7 @@
   "scripts": {
     "dev:stdio": "tsx src/stdio.ts",
     "dev:http": "tsx src/local-http.ts",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -13,8 +14,10 @@
     "zod": "latest"
   },
   "devDependencies": {
+    "@mcpjam/sdk": "^8.8.0",
     "@types/node": "latest",
     "tsx": "latest",
-    "typescript": "latest"
+    "typescript": "latest",
+    "vitest": "^5.0.1"
   }
 }
