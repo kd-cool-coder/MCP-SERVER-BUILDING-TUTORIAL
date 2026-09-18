@@ -71,6 +71,28 @@ Use one of these bearer tokens when connecting an HTTP MCP client:
 - `dev-read-token`: can connect and read.
 - `dev-write-token`: can connect, read, and call `update_ticket_status`.
 
+If you expose the HTTP server through ngrok or another HTTPS tunnel, include the
+public tunnel host in `ALLOWED_HOSTS` so MCP host-header validation accepts it:
+
+```bash
+ALLOWED_HOSTS=your-subdomain.ngrok-free.app npm run dev:http
+```
+
+Then start ngrok in another terminal:
+
+```bash
+ngrok http 8787
+```
+
+Use the HTTPS forwarding URL plus `/mcp`, for example:
+
+```text
+https://your-subdomain.ngrok-free.app/mcp
+```
+
+For MCPJam Swarms, add that HTTPS URL as an HTTP server and choose Bearer Token
+auth with `dev-write-token` if your swarm goals include updates.
+
 To inspect the HTTP transport with MCPJam, start the server and then connect
 with one of the helper scripts:
 

@@ -29,13 +29,22 @@ const gate = requireBearerAuth({
   requiredScopes: ["tickets:read"] // Base requirement to connect
 });
 
+function allowedHosts() {
+  const configuredHosts = (process.env.ALLOWED_HOSTS ?? "")
+    .split(",")
+    .map((host) => host.trim())
+    .filter(Boolean);
+
+  return ["localhost", "127.0.0.1", ...configuredHosts];
+}
+
 // Example using standard Web Fetch API (e.g., Cloudflare Workers, Bun, Deno)
 export default {
   async fetch(request: Request) {
     const url = new URL(request.url);
     if (url.pathname === "/mcp") {
       
-      const hostValidation = hostHeaderValidationResponse(request, ["localhost", "127.0.0.1"]);
+      const hostValidation = hostHeaderValidationResponse(request, allowedHosts());
       if (hostValidation instanceof Response) return hostValidation;
 
       // Protect the endpoint using standard bearer authentication

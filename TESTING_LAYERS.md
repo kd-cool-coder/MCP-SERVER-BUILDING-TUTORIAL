@@ -106,6 +106,36 @@ Screenshot idea: terminal output showing each profile passing the lookup and res
 
 For a real cross-client demo, run the same prompt corpus in MCPJam Inspector or MCPJam Cloud against the clients/models you want to compare, then capture the selected tools and generated arguments.
 
+## Layer 5b: MCPJam Swarms with ngrok
+
+Swarms run in MCPJam's cloud, so they cannot reach `stdio`, `localhost`, or
+private network URLs. Expose the HTTP transport over HTTPS before selecting it
+in the Swarm flow.
+
+Terminal 1:
+
+```bash
+ALLOWED_HOSTS=your-subdomain.ngrok-free.app npm run dev:http
+```
+
+Terminal 2:
+
+```bash
+ngrok http 8787
+```
+
+In MCPJam:
+
+1. Add an HTTP server using `https://your-subdomain.ngrok-free.app/mcp`.
+2. Choose Bearer Token auth.
+3. Use `dev-write-token` for Swarms that may update tickets.
+4. Create a Swarm with personas such as support agent, support manager, and QA analyst.
+5. Select the tunneled HTTP server, not the local stdio server.
+6. Run the Swarm and capture the side-by-side client/model results.
+
+Use this only against development or staging data. Swarm agents can take real
+actions through exposed tools.
+
 ## Layer 6: model-in-the-loop testing
 
 Live model evals are intentionally opt-in because they require a model API key and can spend money.
