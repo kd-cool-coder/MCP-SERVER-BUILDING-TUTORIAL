@@ -29,11 +29,13 @@ If you run the raw Inspector command yourself, pass the server entrypoint as an
 absolute path:
 
 ```bash
-npx -y @mcpjam/inspector@latest --port 6275 --tab tools npx tsx "$PWD/src/stdio.ts"
+npx -y @mcpjam/inspector@latest --tab tools npx tsx "$PWD/src/stdio.ts"
 ```
 
-If the port is busy, close the previous Inspector process or choose another
-free port.
+Use the default Inspector port when you need to sign in. If you see a redirect
+address mismatch, close any old Inspector process and return to the default
+port. If the default port is busy and you only need local screenshots, run
+`npm run inspect:stdio:alt`.
 
 ## Layer 2: automated deterministic testing
 

@@ -28,15 +28,17 @@ The stdio entry point uses `legacy: "reject"`, so connect with a current MCP cli
 npm run inspect:stdio
 ```
 
-Open the local URL printed by MCPJam, usually `http://127.0.0.1:6275`.
+Open the local URL printed by MCPJam, usually `http://127.0.0.1:6274`.
 
 This script passes an absolute path to `src/stdio.ts`. That matters because
 `npx @mcpjam/inspector` runs from an npm cache directory, so a raw relative
 path like `src/stdio.ts` can point at the Inspector package instead of this
 project.
 
-If that port is already in use, either close the old Inspector process or
-change `--port 6275` in the `inspect:*` scripts to another free local port.
+Use the default Inspector port for sign-in. Some hosted auth providers only
+allow registered redirect URLs, and an alternate local port can produce a
+"redirect address doesn't match" sign-in error. If the default port is already
+busy and you do not need to sign in, use `npm run inspect:stdio:alt`.
 
 The Inspector should discover:
 
@@ -81,6 +83,9 @@ In another terminal:
 ```bash
 npm run inspect:http:write
 ```
+
+If the default Inspector port is busy and you do not need Inspector sign-in,
+use `npm run inspect:http:write:alt` instead.
 
 ## Typecheck
 
