@@ -25,10 +25,18 @@ The stdio entry point uses `legacy: "reject"`, so connect with a current MCP cli
 ## Test with MCPJam Inspector
 
 ```bash
-npx -y @mcpjam/inspector@latest --tab tools npx tsx src/stdio.ts
+npm run inspect:stdio
 ```
 
-Open the local URL printed by MCPJam, usually `http://127.0.0.1:6274`.
+Open the local URL printed by MCPJam, usually `http://127.0.0.1:6275`.
+
+This script passes an absolute path to `src/stdio.ts`. That matters because
+`npx @mcpjam/inspector` runs from an npm cache directory, so a raw relative
+path like `src/stdio.ts` can point at the Inspector package instead of this
+project.
+
+If that port is already in use, either close the old Inspector process or
+change `--port 6275` in the `inspect:*` scripts to another free local port.
 
 The Inspector should discover:
 
@@ -60,6 +68,19 @@ Use one of these bearer tokens when connecting an HTTP MCP client:
 
 - `dev-read-token`: can connect and read.
 - `dev-write-token`: can connect, read, and call `update_ticket_status`.
+
+To inspect the HTTP transport with MCPJam, start the server and then connect
+with one of the helper scripts:
+
+```bash
+npm run dev:http
+```
+
+In another terminal:
+
+```bash
+npm run inspect:http:write
+```
 
 ## Typecheck
 

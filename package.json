@@ -5,6 +5,10 @@
   "scripts": {
     "dev:stdio": "tsx src/stdio.ts",
     "dev:http": "tsx src/local-http.ts",
+    "inspect:stdio": "npx -y @mcpjam/inspector@latest --port 6275 --tab tools npx tsx \"$PWD/src/stdio.ts\"",
+    "inspect:stdio:no-open": "npx -y @mcpjam/inspector@latest --no-open --port 6275 --tab tools npx tsx \"$PWD/src/stdio.ts\"",
+    "inspect:http:write": "npx -y @mcpjam/inspector@latest --port 6275 --url http://localhost:8787/mcp --bearer dev-write-token --tab tools",
+    "inspect:http:read": "npx -y @mcpjam/inspector@latest --port 6275 --url http://localhost:8787/mcp --bearer dev-read-token --tab tools",
     "test": "vitest run",
     "test:protocol": "vitest run tests/01-protocol-surface.test.ts",
     "test:security": "vitest run tests/02-security-http.test.ts",

@@ -20,10 +20,20 @@ Screenshot idea: terminal output showing `Layer 1 - Protocol and Server Surface`
 Manual MCPJam Inspector screenshot:
 
 ```bash
-npx -y @mcpjam/inspector@latest --tab tools npx tsx src/stdio.ts
+npm run inspect:stdio
 ```
 
 Capture the Tools, Resources, and Prompts tabs.
+
+If you run the raw Inspector command yourself, pass the server entrypoint as an
+absolute path:
+
+```bash
+npx -y @mcpjam/inspector@latest --port 6275 --tab tools npx tsx "$PWD/src/stdio.ts"
+```
+
+If the port is busy, close the previous Inspector process or choose another
+free port.
 
 ## Layer 2: automated deterministic testing
 
@@ -58,10 +68,7 @@ npm run dev:http
 In another terminal:
 
 ```bash
-npx -y @mcpjam/inspector@latest \
-  --url http://localhost:8787/mcp \
-  --bearer dev-write-token \
-  --tab tools
+npm run inspect:http:write
 ```
 
 Capture `update_ticket_status` succeeding with:
@@ -73,7 +80,7 @@ Capture `update_ticket_status` succeeding with:
 }
 ```
 
-Then repeat with `--bearer dev-read-token` and capture the write denial.
+Then repeat with `npm run inspect:http:read` and capture the write denial.
 
 ## Layer 4: behavioral testing and evals
 
